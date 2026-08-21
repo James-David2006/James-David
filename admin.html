@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard — Portfolio Control Center</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Firebase Core + Auth + Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --bg: #050B18;
+      --bg2: #0A1628;
+      --bg3: #0F1E35;
+      --blue: #2563EB;
+      --cyan: #06B6D4;
+      --white: #FFFFFF;
+      --muted: #94A3B8;
+      --border: rgba(37, 99, 235, 0.25);
+      --border-lt: rgba(255, 255, 255, 0.08);
+      --red: #EF4444;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .admin-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .admin-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 32px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-lt);
+      padding-bottom: 16px;
+    }
+    h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--cyan); }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    label { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+    input, select, textarea {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-lt);
+      border-radius: 8px;
+      padding: 13px 16px;
+      font-size: 0.9rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--blue);
+      background: rgba(37,99,235,0.06);
+    }
+    select option { background: var(--bg2); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+      width: 100%;
+    }
+    .btn:hover {
+      background: var(--cyan);
+      color: #050B18;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    }
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      width: auto;
+      cursor: pointer;
+    }
+    .btn-danger:hover {
+      background: var(--red);
+      color: #fff;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      margin-top: 14px;
+      overflow: hidden;
+      display: none;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      transition: width 0.2s ease;
+    }
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg3);
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border-lt);
+    }
+    .item-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-right: 14px;
+    }
+    .item-info {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    
+    <!-- LOGIN PANEL -->
+    <div class="admin-card" id="auth-card">
+      <div class="admin-header">
+        <h2>Admin Authentication</h2>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="auth-email" placeholder="admin@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="auth-pass" placeholder="••••••••" />
+      </div>
+      <button class="btn" onclick="loginAdmin()"><i class="fas fa-lock"></i> Sign In to Dashboard</button>
+    </div>
+
+    <!-- MAIN UPLOAD PANEL -->
+    <div id="main-panel" style="display: none;">
+      <div class="admin-card">
+        <div class="admin-header">
+          <h2>Upload Showcase Item</h2>
+          <button class="btn-danger" onclick="logoutAdmin()"><i class="fas fa-right-from-bracket"></i> Sign Out</button>
+        </div>
+
+        <div class="form-group">
+          <label>Target Showcase Section</label>
+          <select id="item-collection" onchange="toggleFormFields()">
+            <option value="graphic_designs">Graphic Design Showcase</option>
+            <option value="web_apps">Web App Snapshot Showcase</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Item Title</label>
+          <input type="text" id="item-title" placeholder="e.g. 3D Cyber Emblem or EasyShow PWA" required />
+        </div>
+
+        <div class="form-group">
+          <label id="cat-label">Design Style / Tool</label>
+          <input type="text" id="item-category" placeholder="e.g. 3D Branding, Vector Logo, PWA / React" />
+        </div>
+
+        <div class="form-group">
+          <label id="url-label">High-Res / Preview URL (Optional)</label>
+          <input type="url" id="item-url" placeholder="https://..." />
+        </div>
+
+        <div class="form-group">
+          <label>Description / Details</label>
+          <textarea id="item-desc" rows="3" placeholder="Short description of tools used, architecture, or features"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Screenshot / Graphic Image File</label>
+          <input type="file" id="item-file" accept="image/*" required />
+        </div>
+
+        <div class="progress-bar" id="p-bar"><div class="progress-fill" id="p-fill"></div></div>
+        <button class="btn" id="upload-btn" onclick="handleUpload()" style="margin-top: 18px;">
+          <i class="fas fa-cloud-arrow-up"></i> Upload to Cloudinary & Publish Live
+        </button>
+      </div>
+
+      <!-- ACTIVE UPLOADED ITEMS -->
+      <div class="admin-card">
+        <div class="admin-header">
+          <h2>Active Items</h2>
+        </div>
+        <h4 style="color:var(--cyan); margin-bottom:10px; font-size:0.9rem;">Graphic Designs</h4>
+        <div class="item-list" id="graphics-list">Loading...</div>
+
+        <h4 style="color:var(--cyan); margin:24px 0 10px; font-size:0.9rem;">Web Apps</h4>
+        <div class="item-list" id="apps-list">Loading...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ═══════ CLOUDINARY CREDENTIALS ═══════ */
+    const CLOUDINARY_CLOUD_NAME = "ktu2gobc";
+    const CLOUDINARY_UPLOAD_PRESET = "easyshow_uploads";
+    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+
+    /* ═══════ INTEGRATED FIREBASE CONFIGURATION ═══════ */
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3-mtpnTygGSEJosunM-Vn_c1Pf3jDU0g",
+      authDomain: "my-portfolio-3647c.firebaseapp.com",
+      projectId: "my-portfolio-3647c",
+      storageBucket: "my-portfolio-3647c.firebasestorage.app",
+      messagingSenderId: "392586049562",
+      appId: "1:392586049562:web:f9240bfc5ee1ac3048b9a3"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('auth-card').style.display = 'none';
+        document.getElementById('main-panel').style.display = 'block';
+        loadActiveItems();
+      } else {
+        document.getElementById('auth-card').style.display = 'block';
+        document.getElementById('main-panel').style.display = 'none';
+      }
+    });
+
+    function toggleFormFields() {
+      const type = document.getElementById('item-collection').value;
+      const urlLabel = document.getElementById('url-label');
+      const catLabel = document.getElementById('cat-label');
+      if (type === 'web_apps') {
+        urlLabel.innerText = 'Live App URL (Required)';
+        catLabel.innerText = 'Tech Stack Tag (e.g. Vanilla JS, PHP, React)';
+      } else {
+        urlLabel.innerText = 'High-Res / Preview Link (Optional)';
+        catLabel.innerText = 'Design Style / Tool (e.g. 3D Logo, Photoshop)';
+      }
+    }
+
+    async function loginAdmin() {
+      const email = document.getElementById('auth-email').value;
+      const pass = document.getElementById('auth-pass').value;
+      try {
+        await auth.signInWithEmailAndPassword(email, pass);
+      } catch (err) {
+        alert("Authentication Error: " + err.message);
+      }
+    }
+
+    function logoutAdmin() {
+      auth.signOut();
+    }
+
+    async function handleUpload() {
+      const collection = document.getElementById('item-collection').value;
+      const title = document.getElementById('item-title').value.trim();
+      const category = document.getElementById('item-category').value.trim();
+      const url = document.getElementById('item-url').value.trim();
+      const desc = document.getElementById('item-desc').value.trim();
+      const file = document.getElementById('item-file').files[0];
+
+      if (!title || !file) {
+        alert("Please provide a title and select an image file.");
+        return;
+      }
+
+      const pBar = document.getElementById('p-bar');
+      const pFill = document.getElementById('p-fill');
+      const uploadBtn = document.getElementById('upload-btn');
+      
+      pBar.style.display = 'block';
+      pFill.style.width = '10%';
+      uploadBtn.disabled = true;
+
+      try {
+        // 1. Direct Upload to Cloudinary using FormData
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        formData.append('folder', `portfolio/${collection}`);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', CLOUDINARY_URL, true);
+
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            const percentComplete = Math.round((e.loaded / e.total) * 90);
+            pFill.style.width = percentComplete + '%';
+          }
+        };
+
+        xhr.onload = async () => {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            const imageUrl = response.secure_url;
+            pFill.style.width = '100%';
+
+            // 2. Save Document to Firebase Firestore
+            const docData = {
+              title,
+              description: desc,
+              imageUrl,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if (collection === 'web_apps') {
+              docData.stack = category || 'Web App';
+              docData.liveUrl = url || '#';
+            } else {
+              docData.category = category || 'Graphic Design';
+              docData.previewUrl = url || '';
+            }
+
+            await db.collection(collection).add(docData);
+
+            alert("Uploaded to Cloudinary and published live!");
+            document.getElementById('item-title').value = '';
+            document.getElementById('item-category').value = '';
+            document.getElementById('item-url').value = '';
+            document.getElementById('item-desc').value = '';
+            document.getElementById('item-file').value = '';
+            pBar.style.display = 'none';
+            pFill.style.width = '0%';
+            uploadBtn.disabled = false;
+            loadActiveItems();
+          } else {
+            const errResponse = JSON.parse(xhr.responseText);
+            alert("Cloudinary Upload Error: " + (errResponse.error ? errResponse.error.message : xhr.statusText));
+            uploadBtn.disabled = false;
+            pBar.style.display = 'none';
+          }
+        };
+
+        xhr.onerror = () => {
+          alert("Network error occurred during Cloudinary upload.");
+          uploadBtn.disabled = false;
+          pBar.style.display = 'none';
+        };
+
+        xhr.send(formData);
+
+      } catch (err) {
+        alert("Execution Error: " + err.message);
+        uploadBtn.disabled = false;
+        pBar.style.display = 'none';
+      }
+    }
+
+    async function loadActiveItems() {
+      const renderList = async (colId, listId) => {
+        const listEl = document.getElementById(listId);
+        const snap = await db.collection(colId).orderBy('createdAt', 'desc').get();
+        if (snap.empty) {
+          listEl.innerHTML = '<span style="color:var(--muted);font-size:0.8rem;">No items uploaded yet.</span>';
+          return;
+        }
+        listEl.innerHTML = snap.docs.map(doc => {
+          const d = doc.data();
+          return `
+            <div class="item-row">
+              <div class="item-info">
+                <img src="${d.imageUrl}" class="item-thumb" alt="${d.title}" />
+                <div>
+                  <div style="font-weight:600; font-size:0.9rem;">${d.title}</div>
+                  <div style="font-size:0.75rem; color:var(--muted);">${d.category || d.stack || ''}</div>
+                </div>
+              </div>
+              <button class="btn-danger" onclick="deleteItem('${colId}', '${doc.id}')"><i class="fas fa-trash"></i></button>
+            </div>
+          `;
+        }).join('');
+      };
+
+      await renderList('graphic_designs', 'graphics-list');
+      await renderList('web_apps', 'apps-list');
+    }
+
+    async function deleteItem(collection, id) {
+      if (!confirm("Are you sure you want to remove this item from your portfolio?")) return;
+      await db.collection(collection).doc(id).delete();
+      loadActiveItems();
+    }
+  </script>
+</body>
+</html>
