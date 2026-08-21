@@ -17,29 +17,6 @@
   <meta property="og:image" content="og-image.jpg" />
   <meta property="og:url" content="https://davytech.example.com/" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="James David — Software Engineer & Web Designer" />
-  <meta name="twitter:description" content="Versatile Software Engineer & Web Designer. Full-stack development, UI/UX, graphic design, and video production. 40+ client projects delivered." />
-  <meta name="twitter:image" content="og-image.jpg" />
-
-  <!-- Structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "James David",
-    "alternateName": "DavyTech",
-    "jobTitle": "Software Engineer & Web Designer",
-    "url": "https://davytech.example.com/",
-    "sameAs": [
-      "https://github.com/James-David2006",
-      "https://www.instagram.com/jamesdavidojoajogw001",
-      "https://youtube.com/@jamesdavidojoajogwu"
-    ]
-  }
-  </script>
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,8 +26,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <!-- Swiper 11 CSS & JS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.0/swiper-bundle.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.0/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -61,9 +38,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <style>
-    /* ═══════════════════════════════════════════════════════
-       DESIGN TOKENS
-    ═══════════════════════════════════════════════════════ */
+    /* DESIGN TOKENS */
     :root {
       --bg:         #050B18;
       --bg2:        #0A1628;
@@ -87,9 +62,6 @@
       --ease:       cubic-bezier(0.16,1,0.3,1);
     }
 
-    /* ═══════════════════════════════════════════════════════
-       RESET & BASE
-    ═══════════════════════════════════════════════════════ */
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; font-size: 16px; }
     body {
@@ -97,6 +69,7 @@
       background: var(--bg);
       color: var(--white);
       line-height: 1.6;
+      overflow-x: hidden;
     }
     img { max-width: 100%; display: block; }
     a { text-decoration: none; color: inherit; }
@@ -147,9 +120,8 @@
       letter-spacing: 2px;
     }
 
-    /* UTILITIES */
     .wrap { width: 90%; max-width: 1280px; margin: 0 auto; }
-    .section { padding: 120px 0; }
+    .section { padding: 100px 0; position: relative; }
 
     /* HEADERS */
     .sec-eyebrow {
@@ -255,7 +227,7 @@
     .brand-name { color: var(--white); }
     .brand-name span { color: var(--cyan); }
     .nav-links {
-      display: flex; align-items: center; gap: 28px;
+      display: flex; align-items: center; gap: 24px;
     }
     .nav-links a {
       font-size: 0.88rem; font-weight: 500;
@@ -299,14 +271,14 @@
       background: rgba(5,11,24,0.98);
       backdrop-filter: blur(20px);
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 24px;
+      align-items: center; justify-content: center; gap: 20px;
       transform: translateX(100%);
       transition: transform 0.5s var(--ease);
     }
     .mobile-menu.open { transform: translateX(0); }
     .mobile-menu a {
       font-family: var(--font-disp);
-      font-size: 1.6rem; font-weight: 700;
+      font-size: 1.5rem; font-weight: 700;
       color: var(--muted);
       transition: color 0.3s;
     }
@@ -726,7 +698,7 @@
     .tech-chip i { color: var(--blue); font-size: 0.9rem; }
     .tech-chip:hover { border-color: var(--blue); color: var(--white); transform: translateY(-2px); }
 
-    /* STATIC PROJECTS */
+    /* STATIC PROJECTS (BENTO GRID) */
     .bento {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -751,8 +723,8 @@
     .bento-third { grid-column: span 4; }
     .bento-half  { grid-column: span 6; }
 
-    .card-inner { padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
-    .card-hero { padding: 0; height: 320px; }
+    .card-inner { padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; position: relative; z-index: 3; }
+    .card-hero { padding: 0; height: 340px; }
     .card-hero .card-inner { padding: 36px; }
     .card-preview {
       position: absolute; inset: 0;
@@ -767,6 +739,7 @@
     .card-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(10,22,40,0.95) 0%, transparent 60%);
+      z-index: 2;
     }
     .card-shot {
       position: absolute; inset: 0;
@@ -831,22 +804,26 @@
       margin-bottom: 12px;
     }
 
-    /* ═══════════════════════════════════════════════════════
-       BRUTALIST 3D COVERFLOW SWIPERS (DYNAMIC)
-    ═══════════════════════════════════════════════════════ */
+    /* BRUTALIST 3D COVERFLOW SWIPERS (DYNAMIC) */
     .showcase-section {
       padding: 100px 0;
       position: relative;
       overflow: hidden;
+      min-height: 650px;
     }
     .showcase-container {
       width: 100%;
-      padding: 50px 0 80px;
+      padding: 40px 0 60px;
       perspective: 1200px;
     }
+    .swiper {
+      width: 100%;
+      padding-top: 30px;
+      padding-bottom: 50px;
+    }
     .swiper-slide {
-      width: 320px;
-      height: 480px;
+      width: 300px;
+      height: 440px;
       border-radius: 20px;
       background: var(--bg2);
       border: 2px solid var(--border);
@@ -857,8 +834,8 @@
     }
     @media (min-width: 768px) {
       .swiper-slide {
-        width: 440px;
-        height: 560px;
+        width: 380px;
+        height: 520px;
       }
     }
     .swiper-slide-active {
@@ -887,7 +864,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 28px;
+      padding: 24px;
       z-index: 2;
     }
     .slide-category {
@@ -900,7 +877,7 @@
     }
     .slide-title {
       font-family: var(--font-disp);
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--white);
       line-height: 1.2;
@@ -934,8 +911,8 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: rgba(10, 22, 40, 0.9);
       border: 1.5px solid var(--border);
@@ -955,8 +932,8 @@
       box-shadow: 0 0 24px var(--cyan);
       transform: translateY(-50%) scale(1.1);
     }
-    .swiper-prev-btn { left: 16px; }
-    .swiper-next-btn { right: 16px; }
+    .swiper-prev-btn { left: 10px; }
+    .swiper-next-btn { right: 10px; }
 
     .swiper-pagination-bullet {
       background: var(--dim);
@@ -1237,8 +1214,11 @@
       transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
     }
 
-    .fade-up { opacity: 0; transform: translateY(40px); }
+    .fade-up { opacity: 1; transform: none; }
 
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE RULES (HERO & GENERAL MOBILE PERFECTION)
+    ═══════════════════════════════════════════════════════ */
     @media (max-width: 1100px) {
       .hero-orb-wrap { width: 360px; height: 360px; }
       .hero-orb { width: 280px; height: 280px; top: 40px; left: 40px; }
@@ -1249,12 +1229,76 @@
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 60px; }
-      .hero-visual { justify-content: center; }
-      .hero-ctas { justify-content: center; }
-      .hero-social { justify-content: center; }
-      .badge-projects { top: -20px; left: 0; }
-      .badge-exp { bottom: -20px; right: 0; }
+      .hero {
+        padding-top: 140px;
+        padding-bottom: 60px;
+        min-height: auto;
+      }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 36px;
+      }
+      .hero-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-tag {
+        margin-bottom: 18px;
+      }
+      .hero-h1 {
+        font-size: clamp(2.3rem, 9vw, 3.6rem);
+        letter-spacing: -0.5px;
+        line-height: 1.15;
+      }
+      .hero-desc {
+        font-size: 0.95rem;
+        max-width: 100%;
+        margin-bottom: 24px;
+      }
+      .hero-ctas {
+        justify-content: center;
+        width: 100%;
+      }
+      .hero-social {
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 24px;
+        margin-bottom: 10px;
+      }
+      .hero-visual {
+        margin-top: 10px;
+        justify-content: center;
+        width: 100%;
+      }
+      .hero-orb-wrap {
+        width: 280px;
+        height: 280px;
+      }
+      .hero-orb {
+        width: 210px;
+        height: 210px;
+        top: 35px;
+        left: 35px;
+      }
+      .stat-badge {
+        padding: 8px 14px;
+      }
+      .badge-projects {
+        top: 0px;
+        left: -10px;
+      }
+      .badge-exp {
+        bottom: 10px;
+        right: -10px;
+      }
+      .badge-design {
+        display: none;
+      }
+      .scroll-hint {
+        display: none;
+      }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .about-stats { right: 0; }
       .exp-line { display: none; }
@@ -1264,22 +1308,50 @@
       .step-arrow { display: none; }
     }
     @media (max-width: 768px) {
-      .section { padding: 80px 0; }
+      .section { padding: 60px 0; }
       .nav-links { display: none; }
       .burger { display: flex; }
       .skills-categories { grid-template-columns: 1fr; gap: 32px; }
-      .skills-wrap { padding: 32px; }
+      .skills-wrap { padding: 24px; }
       .bento-third { grid-column: span 12; }
       .bento-half  { grid-column: span 12; }
-      .hero-orb-wrap { width: 280px; height: 280px; }
-      .hero-orb { width: 220px; height: 220px; top: 30px; left: 30px; }
-      .cform { padding: 28px; }
+      .cform { padding: 24px; }
       .frow { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; text-align: center; }
       .process-grid { grid-template-columns: 1fr; }
       .cursor, .cursor-ring { display: none; }
-      .swiper-nav-btn { width: 42px; height: 42px; font-size: 0.95rem; }
+      .swiper-nav-btn { width: 40px; height: 40px; font-size: 0.9rem; }
+    }
+    @media (max-width: 420px) {
+      .hero-h1 {
+        font-size: 2.1rem;
+      }
+      .hero-orb-wrap {
+        width: 240px;
+        height: 240px;
+      }
+      .hero-orb {
+        width: 180px;
+        height: 180px;
+        top: 30px;
+        left: 30px;
+      }
+      .stat-badge-text strong {
+        font-size: 0.85rem;
+      }
+      .badge-projects {
+        left: -4px;
+        top: -6px;
+      }
+      .badge-exp {
+        right: -4px;
+        bottom: 0px;
+      }
+      .hero-ctas .btn {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -1436,7 +1508,7 @@
   <section class="section" id="about">
     <div class="wrap">
       <div class="about-grid">
-        <div class="about-visual fade-up">
+        <div class="about-visual">
           <div class="about-img-wrap">
             <div class="about-img-placeholder" id="about-placeholder">
               <i class="fas fa-user-tie"></i>
@@ -1456,16 +1528,16 @@
         </div>
 
         <div class="about-text">
-          <div class="sec-eyebrow fade-up">Who I Am</div>
-          <h2 class="sec-title fade-up">Engineering the web,<br><em>designing the future.</em></h2>
-          <p class="sec-sub fade-up" style="margin-bottom:24px;">
+          <div class="sec-eyebrow">Who I Am</div>
+          <h2 class="sec-title">Engineering the web,<br><em>designing the future.</em></h2>
+          <p class="sec-sub" style="margin-bottom:24px;">
             I'm James David — a versatile <strong style="color:var(--white)">Software Engineer, Web Designer & Graphic Designer</strong> based in Nigeria. I combine robust full-stack engineering with strong visual asset design capabilities, delivering cross-platform digital products that perform and impress.
           </p>
-          <p class="sec-sub fade-up">
+          <p class="sec-sub">
             With 40+ completed client contracts, I execute every project from scope to deployment — ensuring cross-platform stability, asset optimization, and clean source code across every build.
           </p>
 
-          <div class="about-pills fade-up">
+          <div class="about-pills">
             <span class="pill">Software Engineering</span>
             <span class="pill">Web Design</span>
             <span class="pill">PHP / MySQL</span>
@@ -1476,7 +1548,7 @@
             <span class="pill">Agile Workflows</span>
           </div>
 
-          <div class="about-features fade-up">
+          <div class="about-features">
             <div class="feat-item">
               <div class="feat-icon"><i class="fas fa-code"></i></div>
               <div>
@@ -1508,14 +1580,14 @@
   <section class="section" id="skills">
     <div class="wrap">
       <div style="text-align:center; margin-bottom: 8px;">
-        <div class="sec-eyebrow fade-up" style="justify-content:center;">What I Do</div>
-        <h2 class="sec-title fade-up" style="text-align:center;">Skills & <em>Expertise</em></h2>
-        <p class="sec-sub fade-up" style="text-align:center; margin:0 auto 0;">
+        <div class="sec-eyebrow" style="justify-content:center;">What I Do</div>
+        <h2 class="sec-title" style="text-align:center;">Skills & <em>Expertise</em></h2>
+        <p class="sec-sub" style="text-align:center; margin:0 auto 0;">
           A refined toolkit built through real-world projects, continuous learning, and a relentless drive for quality.
         </p>
       </div>
 
-      <div class="skills-wrap fade-up">
+      <div class="skills-wrap">
         <div class="skills-categories">
           <div class="skill-cat">
             <h3>Core Frontend</h3>
@@ -1607,14 +1679,30 @@
   <!-- SELECTED PROJECTS -->
   <section class="section" id="projects">
     <div class="wrap">
-      <div class="sec-eyebrow fade-up">My Work</div>
-      <h2 class="sec-title fade-up">Selected <em>Projects</em></h2>
-      <p class="sec-sub fade-up">Real-world builds — from brand platforms to ministry sites to sermon archives.</p>
+      <div class="sec-eyebrow">My Work</div>
+      <h2 class="sec-title">Selected <em>Projects</em></h2>
+      <p class="sec-sub">Real-world builds — from brand platforms to ministry sites to sermon archives.</p>
 
       <div class="bento" style="margin-top:48px;">
-        <div class="bento-card bento-wide card-hero fade-up">
+        <div class="bento-card bento-wide card-hero">
           <div class="card-preview">
             <div class="card-preview-bg" style="background: linear-gradient(135deg, #020818 0%, #0a1628 40%, #0d1f4a 100%);"></div>
+            <!-- Mockup -->
+            <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-54%); width:72%; max-width:380px;">
+              <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+                <div style="background:rgba(255,255,255,0.05); padding:8px 12px; display:flex; align-items:center; gap:6px; border-bottom:1px solid rgba(255,255,255,0.07);">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ff5f56;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ffbd2e;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#27c93f;display:inline-block;"></span>
+                  <span style="flex:1; background:rgba(255,255,255,0.08); border-radius:4px; padding:3px 8px; font-family:var(--font-mono); font-size:0.6rem; color:rgba(255,255,255,0.4); margin-left:6px;">technovaxdigital.vercel.app</span>
+                </div>
+                <div style="padding:20px; display:flex; flex-direction:column; gap:8px;">
+                  <div style="height:12px; background:linear-gradient(90deg,var(--blue),var(--cyan)); border-radius:4px; width:60%;"></div>
+                  <div style="height:8px; background:rgba(255,255,255,0.07); border-radius:4px; width:90%;"></div>
+                  <div style="height:8px; background:rgba(255,255,255,0.07); border-radius:4px; width:75%;"></div>
+                </div>
+              </div>
+            </div>
             <img src="project1.jpg" alt="TechNovaX Platform" class="card-shot is-hidden" id="shot-technovax" loading="lazy" width="800" height="500">
             <div class="card-overlay"></div>
           </div>
@@ -1626,9 +1714,24 @@
           </div>
         </div>
 
-        <div class="bento-card bento-std card-hero fade-up">
+        <div class="bento-card bento-std card-hero">
           <div class="card-preview">
             <div class="card-preview-bg" style="background: linear-gradient(135deg, #08051a 0%, #100a28 50%, #0a0a20 100%);"></div>
+            <!-- Mockup -->
+            <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-54%); width:76%; max-width:300px;">
+              <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09); border-radius:10px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+                <div style="background:rgba(255,255,255,0.04); padding:8px 12px; display:flex; align-items:center; gap:6px; border-bottom:1px solid rgba(255,255,255,0.06);">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ff5f56;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ffbd2e;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#27c93f;display:inline-block;"></span>
+                  <span style="flex:1; background:rgba(255,255,255,0.07); border-radius:4px; padding:3px 8px; font-family:var(--font-mono); font-size:0.6rem; color:rgba(255,255,255,0.35); margin-left:6px;">godscaremissionss.netlify.app</span>
+                </div>
+                <div style="padding:18px; display:flex; flex-direction:column; gap:7px;">
+                  <div style="height:10px; background:linear-gradient(90deg,#7c3aed,#a855f7); border-radius:4px; width:55%;"></div>
+                  <div style="height:7px; background:rgba(255,255,255,0.06); border-radius:4px; width:88%;"></div>
+                </div>
+              </div>
+            </div>
             <img src="project2.jpg" alt="God's Care Missions" class="card-shot is-hidden" id="shot-godscare" loading="lazy" width="800" height="500">
             <div class="card-overlay"></div>
           </div>
@@ -1640,7 +1743,7 @@
           </div>
         </div>
 
-        <div class="bento-card bento-third fade-up" style="min-height:180px;">
+        <div class="bento-card bento-third" style="min-height:180px;">
           <div class="bento-mini" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
             <div class="mini-num">40+</div>
             <div class="mini-label">Client contracts completed</div>
@@ -1648,7 +1751,7 @@
           </div>
         </div>
 
-        <div class="bento-card bento-third fade-up" style="min-height:180px;">
+        <div class="bento-card bento-third" style="min-height:180px;">
           <div class="bento-mini" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
             <div class="avail-status"><span class="avail-dot"></span>Open to hire</div>
             <div class="mini-label" style="font-size:1rem; color:var(--white); font-weight:600;">Available Now</div>
@@ -1657,7 +1760,7 @@
           </div>
         </div>
 
-        <div class="bento-card bento-third fade-up" style="min-height:180px;">
+        <div class="bento-card bento-third" style="min-height:180px;">
           <div class="bento-mini" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
             <div class="mini-num">2022</div>
             <div class="mini-label">Freelancing since</div>
@@ -1665,9 +1768,24 @@
           </div>
         </div>
 
-        <div class="bento-card bento-half card-hero fade-up">
+        <div class="bento-card bento-half card-hero">
           <div class="card-preview">
             <div class="card-preview-bg" style="background: linear-gradient(135deg, #030d18 0%, #071520 60%, #0a1a10 100%);"></div>
+            <!-- Mockup -->
+            <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-54%); width:78%; max-width:280px;">
+              <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09); border-radius:10px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.5);">
+                <div style="background:rgba(255,255,255,0.04); padding:8px 12px; display:flex; align-items:center; gap:6px; border-bottom:1px solid rgba(255,255,255,0.06);">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ff5f56;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ffbd2e;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#27c93f;display:inline-block;"></span>
+                  <span style="flex:1; background:rgba(255,255,255,0.07); border-radius:4px; padding:3px 8px; font-family:var(--font-mono); font-size:0.55rem; color:rgba(255,255,255,0.35); margin-left:6px;">evangelistjoshua…vercel.app</span>
+                </div>
+                <div style="padding:16px; display:flex; flex-direction:column; gap:7px;">
+                  <div style="height:10px; background:linear-gradient(90deg,#06B6D4,#10B981); border-radius:4px; width:50%;"></div>
+                  <div style="height:7px; background:rgba(255,255,255,0.06); border-radius:4px; width:82%;"></div>
+                </div>
+              </div>
+            </div>
             <img src="project3.jpg" alt="Preacher's Message Archive" class="card-shot is-hidden" id="shot-preacher" loading="lazy" width="800" height="500">
             <div class="card-overlay"></div>
           </div>
@@ -1679,9 +1797,24 @@
           </div>
         </div>
 
-        <div class="bento-card bento-half card-hero fade-up">
+        <div class="bento-card bento-half card-hero">
           <div class="card-preview">
             <div class="card-preview-bg" style="background: linear-gradient(135deg, #080510 0%, #0a0d1a 60%, #10080a 100%);"></div>
+            <!-- Mockup -->
+            <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-54%); width:78%; max-width:280px;">
+              <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09); border-radius:10px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.5);">
+                <div style="background:rgba(255,255,255,0.04); padding:8px 12px; display:flex; align-items:center; gap:6px; border-bottom:1px solid rgba(255,255,255,0.06);">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ff5f56;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#ffbd2e;display:inline-block;"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#27c93f;display:inline-block;"></span>
+                  <span style="flex:1; background:rgba(255,255,255,0.07); border-radius:4px; padding:3px 8px; font-family:var(--font-mono); font-size:0.6rem; color:rgba(255,255,255,0.35); margin-left:6px;">davidojoajogwu.netlify.app</span>
+                </div>
+                <div style="padding:16px; display:flex; flex-direction:column; gap:7px;">
+                  <div style="height:10px; background:linear-gradient(90deg,var(--gold),#f97316); border-radius:4px; width:45%;"></div>
+                  <div style="height:7px; background:rgba(255,255,255,0.06); border-radius:4px; width:85%;"></div>
+                </div>
+              </div>
+            </div>
             <img src="project4.jpg" alt="Personal Portfolio" class="card-shot is-hidden" id="shot-portfolio" loading="lazy" width="800" height="500">
             <div class="card-overlay"></div>
           </div>
@@ -1700,19 +1833,27 @@
   <section class="showcase-section" id="graphics-showcase">
     <div class="wrap">
       <div style="text-align:center;">
-        <div class="sec-eyebrow fade-up" style="justify-content:center;">Visual Mastery</div>
-        <h2 class="sec-title fade-up" style="text-align:center;">Graphic <em>Creations</em></h2>
-        <p class="sec-sub fade-up" style="text-align:center; margin:0 auto;">
+        <div class="sec-eyebrow" style="justify-content:center;">Visual Mastery</div>
+        <h2 class="sec-title" style="text-align:center;">Graphic <em>Creations</em></h2>
+        <p class="sec-sub" style="text-align:center; margin:0 auto;">
           3D logos, custom typography, brand identities, and promotional artwork.
         </p>
       </div>
 
-      <div class="showcase-container fade-up" style="position:relative;">
+      <div class="showcase-container" style="position:relative;">
         <div class="swiper" id="graphicsSwiper">
           <div class="swiper-wrapper" id="graphics-wrapper">
             <div class="swiper-slide">
               <div class="slide-img-wrap">
-                <div class="hero-orb-placeholder" style="font-size:3rem;"><i class="fas fa-spinner fa-spin"></i><small>Loading Assets...</small></div>
+                <div style="position:absolute; inset:0; background:linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+                  <i class="fas fa-palette" style="font-size:3.5rem; color:var(--cyan);"></i>
+                  <p style="font-family:var(--font-mono); font-size:0.75rem; color:var(--muted); letter-spacing:2px;">READY TO SHOWCASE</p>
+                </div>
+                <div class="slide-content-overlay">
+                  <span class="slide-category">Artwork & 3D Branding</span>
+                  <h4 class="slide-title">Graphic Showcase Ready</h4>
+                  <p class="slide-meta">Upload designs directly from your admin panel.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1728,19 +1869,27 @@
   <section class="showcase-section" id="apps-showcase" style="background:var(--bg2); border-top:1px solid var(--border-lt); border-bottom:1px solid var(--border-lt);">
     <div class="wrap">
       <div style="text-align:center;">
-        <div class="sec-eyebrow fade-up" style="justify-content:center;">App Deployments</div>
-        <h2 class="sec-title fade-up" style="text-align:center;">Web App <em>Snapshots</em></h2>
-        <p class="sec-sub fade-up" style="text-align:center; margin:0 auto;">
+        <div class="sec-eyebrow" style="justify-content:center;">App Deployments</div>
+        <h2 class="sec-title" style="text-align:center;">Web App <em>Snapshots</em></h2>
+        <p class="sec-sub" style="text-align:center; margin:0 auto;">
           Interactive PWAs, client-side tools, and full-stack software products built for scale.
         </p>
       </div>
 
-      <div class="showcase-container fade-up" style="position:relative;">
+      <div class="showcase-container" style="position:relative;">
         <div class="swiper" id="appsSwiper">
           <div class="swiper-wrapper" id="apps-wrapper">
             <div class="swiper-slide">
               <div class="slide-img-wrap">
-                <div class="hero-orb-placeholder" style="font-size:3rem;"><i class="fas fa-spinner fa-spin"></i><small>Fetching Builds...</small></div>
+                <div style="position:absolute; inset:0; background:linear-gradient(135deg, #064e3b 0%, #0f172a 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+                  <i class="fas fa-laptop-code" style="font-size:3.5rem; color:#10B981;"></i>
+                  <p style="font-family:var(--font-mono); font-size:0.75rem; color:var(--muted); letter-spacing:2px;">READY TO SHOWCASE</p>
+                </div>
+                <div class="slide-content-overlay">
+                  <span class="slide-category">Interactive Deployments</span>
+                  <h4 class="slide-title">App Showcase Ready</h4>
+                  <p class="slide-meta">Upload app screenshots directly from your admin panel.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1756,14 +1905,14 @@
   <section class="section" id="process">
     <div class="wrap">
       <div style="text-align:center;">
-        <div class="sec-eyebrow fade-up" style="justify-content:center;">How I Work</div>
-        <h2 class="sec-title fade-up" style="text-align:center;">My <em>Process</em></h2>
-        <p class="sec-sub fade-up" style="text-align:center; margin:0 auto;">
+        <div class="sec-eyebrow" style="justify-content:center;">How I Work</div>
+        <h2 class="sec-title" style="text-align:center;">My <em>Process</em></h2>
+        <p class="sec-sub" style="text-align:center; margin:0 auto;">
           A clear, collaborative workflow that turns ideas into world-class products — on time.
         </p>
       </div>
 
-      <div class="process-grid fade-up">
+      <div class="process-grid">
         <div class="process-step">
           <div class="step-num">01 / Discover</div>
           <span class="step-icon">🔍</span>
@@ -1802,11 +1951,11 @@
   <section class="section" id="testimonials">
     <div class="wrap">
       <div style="text-align:center;">
-        <div class="sec-eyebrow fade-up" style="justify-content:center;">Social Proof</div>
-        <h2 class="sec-title fade-up" style="text-align:center;">What Clients <em>Say</em></h2>
+        <div class="sec-eyebrow" style="justify-content:center;">Social Proof</div>
+        <h2 class="sec-title" style="text-align:center;">What Clients <em>Say</em></h2>
       </div>
 
-      <div class="test-slider fade-up">
+      <div class="test-slider">
         <div class="test-track" id="test-track"></div>
       </div>
     </div>
@@ -1817,10 +1966,10 @@
     <div class="wrap">
       <div class="exp-grid">
         <div>
-          <div class="sec-eyebrow fade-up">Career</div>
-          <h2 class="sec-title fade-up">Professional <em>History</em></h2>
+          <div class="sec-eyebrow">Career</div>
+          <h2 class="sec-title">Professional <em>History</em></h2>
 
-          <div class="fade-up" style="margin-top:36px; position:relative; padding-left:28px; border-left:1px solid var(--border);">
+          <div style="margin-top:36px; position:relative; padding-left:28px; border-left:1px solid var(--border);">
             <div style="position:relative; margin-bottom:48px;">
               <div style="position:absolute; left:-36px; top:4px; width:16px; height:16px; border-radius:50%; background:var(--blue); border:3px solid var(--bg); box-shadow:0 0 0 2px var(--blue);"></div>
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:6px;">
@@ -1835,15 +1984,11 @@
                 </li>
                 <li style="display:flex; gap:10px; font-size:0.85rem; color:var(--muted); line-height:1.6;">
                   <i class="fas fa-check-circle" style="color:var(--cyan); margin-top:3px; flex-shrink:0;"></i>
-                  Built fully custom front-end interfaces using semantic HTML5, modern CSS layouts, and vanilla JavaScript — high compatibility across diverse browser systems.
+                  Built fully custom front-end interfaces using semantic HTML5, modern CSS layouts, and vanilla JavaScript.
                 </li>
                 <li style="display:flex; gap:10px; font-size:0.85rem; color:var(--muted); line-height:1.6;">
                   <i class="fas fa-check-circle" style="color:var(--cyan); margin-top:3px; flex-shrink:0;"></i>
                   Integrated dynamic server-side functionality using PHP — securing authentication paths, parsing user content directories, and stabilizing transactional API paths.
-                </li>
-                <li style="display:flex; gap:10px; font-size:0.85rem; color:var(--muted); line-height:1.6;">
-                  <i class="fas fa-check-circle" style="color:var(--cyan); margin-top:3px; flex-shrink:0;"></i>
-                  Optimized web graphic elements and promotional video assets within <strong style="color:var(--white);">Adobe Creative Cloud</strong>, reducing client asset load footprints via specialized compression pipelines.
                 </li>
               </ul>
             </div>
@@ -1851,10 +1996,10 @@
         </div>
 
         <div>
-          <div class="sec-eyebrow fade-up">Background</div>
-          <h2 class="sec-title fade-up">Education & <em>Credentials</em></h2>
+          <div class="sec-eyebrow">Background</div>
+          <h2 class="sec-title">Education & <em>Credentials</em></h2>
 
-          <div class="fade-up" style="margin-top:36px; display:flex; flex-direction:column; gap:20px;">
+          <div style="margin-top:36px; display:flex; flex-direction:column; gap:20px;">
             <div style="background:var(--bg2); border:1px solid var(--border-lt); border-radius:var(--r); padding:28px;">
               <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
                 <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.12);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-graduation-cap"></i></div>
@@ -1863,7 +2008,7 @@
                   <div style="font-size:0.78rem;color:var(--cyan);">Confluence University of Science & Technology</div>
                 </div>
               </div>
-              <p style="font-size:0.82rem;color:var(--dim);line-height:1.65;">Web Application Development, Database Systems Design, Object-Oriented Software Engineering, UI Architecture. Developed utility micro-apps, schema prototypes, and local sync architectures.</p>
+              <p style="font-size:0.82rem;color:var(--dim);line-height:1.65;">Web Application Development, Database Systems Design, Object-Oriented Software Engineering, UI Architecture.</p>
             </div>
 
             <div style="background:var(--bg2); border:1px solid var(--border-lt); border-radius:var(--r); padding:28px;">
@@ -1874,18 +2019,7 @@
                   <div style="font-size:0.78rem;color:var(--gold);">Photoshop & Premiere Pro</div>
                 </div>
               </div>
-              <p style="font-size:0.82rem;color:var(--dim);line-height:1.65;">Certified in professional Photoshop and Premiere Pro workflows — covering visual design, photo compositing, video production, and asset optimization pipelines.</p>
-            </div>
-
-            <div style="background:var(--bg2); border:1px solid var(--border-lt); border-radius:var(--r); padding:28px;">
-              <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
-                <div style="width:44px;height:44px;border-radius:12px;background:rgba(6,182,212,0.1);display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-robot"></i></div>
-                <div>
-                  <div style="font-family:var(--font-disp);font-size:0.95rem;font-weight:700;">AI & Modern Tooling</div>
-                  <div style="font-size:0.78rem;color:var(--cyan);">RunwayML · D-ID · Automated Scripting</div>
-                </div>
-              </div>
-              <p style="font-size:0.82rem;color:var(--dim);line-height:1.65;">Hands-on experience building automated script designs and AI-powered linear video production tools using RunwayML and D-ID for next-gen creative workflows.</p>
+              <p style="font-size:0.82rem;color:var(--dim);line-height:1.65;">Certified in professional Photoshop and Premiere Pro workflows.</p>
             </div>
           </div>
         </div>
@@ -1898,16 +2032,16 @@
     <div class="wrap">
       <div class="contact-grid">
         <div>
-          <div class="sec-eyebrow fade-up">Get In Touch</div>
-          <h2 class="sec-title fade-up">Let's build something<br><em>remarkable.</em></h2>
-          <p class="sec-sub fade-up">Ready to bring your vision to life? I'm open for freelance projects, full-time roles, and creative collabs. Drop a message and I'll respond fast.</p>
+          <div class="sec-eyebrow">Get In Touch</div>
+          <h2 class="sec-title">Let's build something<br><em>remarkable.</em></h2>
+          <p class="sec-sub">Ready to bring your vision to life? I'm open for freelance projects, full-time roles, and creative collabs. Drop a message and I'll respond fast.</p>
 
-          <div class="contact-channels fade-up">
-            <a href="mailto:davytechstudio@gmail.com" class="channel">
+          <div class="contact-channels">
+            <a href="mailto:jamesdavidojoajogwu@gmail.com" class="channel">
               <div class="ch-icon"><i class="fas fa-envelope"></i></div>
               <div>
                 <div class="ch-label">Email me at</div>
-                <div class="ch-val">davytechstudio@gmail.com</div>
+                <div class="ch-val">jamesdavidojoajogwu@gmail.com</div>
               </div>
             </a>
             <a href="tel:+2347054103503" class="channel">
@@ -1917,13 +2051,6 @@
                 <div class="ch-val">+234 705 410 3503</div>
               </div>
             </a>
-            <a href="https://davidojoajogwu.netlify.app" target="_blank" rel="noopener noreferrer" class="channel">
-              <div class="ch-icon"><i class="fas fa-globe"></i></div>
-              <div>
-                <div class="ch-label">Portfolio site</div>
-                <div class="ch-val">davidojoajogwu.netlify.app</div>
-              </div>
-            </a>
             <a href="https://github.com/James-David2006" target="_blank" rel="noopener noreferrer" class="channel">
               <div class="ch-icon"><i class="fab fa-github"></i></div>
               <div>
@@ -1931,25 +2058,17 @@
                 <div class="ch-val">github.com/James-David2006</div>
               </div>
             </a>
-            <div class="channel" style="cursor:default;">
-              <div class="ch-icon"><i class="fas fa-location-dot"></i></div>
-              <div>
-                <div class="ch-label">Based in</div>
-                <div class="ch-val">Nigeria · Remote Worldwide</div>
-              </div>
-            </div>
           </div>
 
-          <div class="contact-social-links fade-up">
+          <div class="contact-social-links">
             <a href="https://www.facebook.com/profile.php?id=100084728052475" class="soc-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i> Facebook</a>
             <a href="https://vm.tiktok.com/ZSHn3rMbWH3ya-KwZts/" class="soc-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a>
             <a href="https://www.instagram.com/jamesdavidojoajogw001" class="soc-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a>
             <a href="https://youtube.com/@jamesdavidojoajogwu" class="soc-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="https://github.com/James-David2006" class="soc-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
           </div>
         </div>
 
-        <div class="cform fade-up">
+        <div class="cform">
           <h3>Send a Message</h3>
           <p>I'll get back to you within 24 hours.</p>
 
@@ -1973,8 +2092,7 @@
                 <option value="UI/UX Design">UI/UX Design</option>
                 <option value="Graphic Design">Graphic Design</option>
                 <option value="Video Editing">Video Editing</option>
-                <option value="Full Project (Dev + Design)">Full Project (Dev + Design)</option>
-                <option value="Other">Other</option>
+                <option value="Full Project">Full Project (Dev + Design)</option>
               </select>
             </div>
 
@@ -1985,8 +2103,7 @@
                 <option value="Under $200">Under $200</option>
                 <option value="$200 – $500">$200 – $500</option>
                 <option value="$500 – $1,000">$500 – $1,000</option>
-                <option value="$1,000 – $3,000">$1,000 – $3,000</option>
-                <option value="$3,000+">$3,000+</option>
+                <option value="$1,000+">$1,000+</option>
               </select>
             </div>
 
@@ -2014,13 +2131,6 @@
             <span class="brand-name">James<span>David</span></span>
           </div>
           <p class="footer-tagline">Building the next generation of digital experiences — beautiful, fast, and built to last.</p>
-          <div class="footer-social">
-            <a href="https://github.com/James-David2006" class="f-soc" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-            <a href="https://www.facebook.com/share/19oWYwHLZU/" class="f-soc" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/jamesdavidojoajogw001" class="f-soc" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-            <a href="https://youtube.com/@jamesdavidojoajogwu" class="f-soc" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
-            <a href="https://vm.tiktok.com/ZSHn3rMbWH3ya-KwZts/" class="f-soc" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
-          </div>
         </div>
 
         <div class="footer-col">
@@ -2031,7 +2141,6 @@
             <li><a href="#projects">Projects</a></li>
             <li><a href="#graphics-showcase">Graphics</a></li>
             <li><a href="#apps-showcase">Web Apps</a></li>
-            <li><a href="#experience">Experience</a></li>
           </ul>
         </div>
 
@@ -2042,17 +2151,14 @@
             <li><a href="#contact">PHP Engineering</a></li>
             <li><a href="#contact">UI/UX Design</a></li>
             <li><a href="#contact">Adobe CC Design</a></li>
-            <li><a href="#contact">Video Editing / AI</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Contact</h4>
           <ul>
-            <li><a href="mailto:davytechstudio@gmail.com">davytechstudio@gmail.com</a></li>
+            <li><a href="mailto:jamesdavidojoajogwu@gmail.com">jamesdavidojoajogwu@gmail.com</a></li>
             <li><a href="tel:+2347054103503">+234 705 410 3503</a></li>
-            <li><a href="https://davidojoajogwu.netlify.app" target="_blank" rel="noopener noreferrer">davidojoajogwu.netlify.app</a></li>
-            <li><a href="https://github.com/James-David2006" target="_blank" rel="noopener noreferrer">github.com/James-David2006</a></li>
             <li><a href="#contact">Nigeria · Remote Worldwide</a></li>
           </ul>
         </div>
@@ -2067,7 +2173,7 @@
 
   <!-- ═══════════════════ JAVASCRIPT ENGINE ═══════════════════ -->
   <script>
-  /* ═══════ INTEGRATED FIREBASE CONFIGURATION ═══════ */
+  /* FIREBASE CONFIG */
   const firebaseConfig = {
     apiKey: "AIzaSyA3-mtpnTygGSEJosunM-Vn_c1Pf3jDU0g",
     authDomain: "my-portfolio-3647c.firebaseapp.com",
@@ -2082,7 +2188,9 @@
   }
   const db = firebase.firestore();
 
-  /* ═══════ BRUTALIST 3D COVERFLOW SWIPER ENGINE ═══════ */
+  let gSwiper = null;
+  let aSwiper = null;
+
   function initBrutalSwiper(containerId, prevBtnId, nextBtnId, paginationId) {
     return new Swiper(containerId, {
       effect: 'coverflow',
@@ -2162,26 +2270,30 @@
         }).join('');
       }
 
-      initBrutalSwiper('#graphicsSwiper', '#graphics-prev', '#graphics-next', '#graphics-pagination');
-      initBrutalSwiper('#appsSwiper', '#apps-prev', '#apps-next', '#apps-pagination');
+      if (gSwiper) gSwiper.destroy();
+      if (aSwiper) aSwiper.destroy();
+      gSwiper = initBrutalSwiper('#graphicsSwiper', '#graphics-prev', '#graphics-next', '#graphics-pagination');
+      aSwiper = initBrutalSwiper('#appsSwiper', '#apps-prev', '#apps-next', '#apps-pagination');
 
     } catch (err) {
       console.warn("Firestore data load fallback:", err);
+      if (!gSwiper) gSwiper = initBrutalSwiper('#graphicsSwiper', '#graphics-prev', '#graphics-next', '#graphics-pagination');
+      if (!aSwiper) aSwiper = initBrutalSwiper('#appsSwiper', '#apps-prev', '#apps-next', '#apps-pagination');
     }
   }
 
-  /* ═══════ PRELOADER ═══════ */
+  /* PRELOADER & GSAP INIT */
   window.addEventListener('load', () => {
     setTimeout(() => {
       const pre = document.getElementById('preloader');
       pre.classList.add('hidden');
-      setTimeout(() => pre.remove(), 800);
-      initAnimations();
+      setTimeout(() => pre.remove(), 600);
       loadPortfolioShowcases();
-    }, 1800);
+      initAnimations();
+    }, 1200);
   });
 
-  /* ═══════ CUSTOM CURSOR ═══════ */
+  /* CUSTOM CURSOR */
   const supportsFinePointer = window.matchMedia('(pointer: fine)').matches;
   if (supportsFinePointer) {
     const cur  = document.getElementById('cursor');
@@ -2199,13 +2311,9 @@
       curR.style.top  = ry - 18 + 'px';
       requestAnimationFrame(animRing);
     })();
-    document.querySelectorAll('a, button, .bento-card, .swiper-slide').forEach(el => {
-      el.addEventListener('mouseenter', () => { curR.style.width = '56px'; curR.style.height = '56px'; curR.style.opacity = '0.5'; });
-      el.addEventListener('mouseleave', () => { curR.style.width = '36px'; curR.style.height = '36px'; curR.style.opacity = '1'; });
-    });
   }
 
-  /* ═══════ NAVBAR SCROLL ═══════ */
+  /* NAVBAR SCROLL */
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 50);
@@ -2213,7 +2321,7 @@
   });
   document.getElementById('btt').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  /* ═══════ MOBILE MENU ═══════ */
+  /* MOBILE MENU */
   const burger = document.getElementById('burger');
   const mMenu  = document.getElementById('mobile-menu');
   burger.addEventListener('click', () => {
@@ -2233,7 +2341,7 @@
     burger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
   }
 
-  /* ═══════ THEME TOGGLE ═══════ */
+  /* THEME TOGGLE */
   const themeBtn = document.getElementById('theme-btn');
   let dark = true;
   themeBtn.addEventListener('click', () => {
@@ -2242,7 +2350,7 @@
     themeBtn.querySelector('i').className = dark ? 'fas fa-moon' : 'fas fa-sun';
   });
 
-  /* ═══════ TICKER ═══════ */
+  /* TICKER */
   const tickerItems = [
     'Software Engineering', 'Web Design', 'PHP Development',
     'MySQL Database Design', 'UI Architecture', 'Adobe CC Certified',
@@ -2253,7 +2361,7 @@
   const tickerHTML = tickerItems.map(t => `<div class="ticker-item">${t} <i class="fas fa-diamond"></i></div>`).join('');
   track.innerHTML = tickerHTML + tickerHTML;
 
-  /* ═══════ TESTIMONIALS ═══════ */
+  /* TESTIMONIALS */
   const tests = [
     { q: "Working with James David was a transformative experience. The website tripled our online engagement overnight.", name: "Dr. Victorious Revival", role: "Ministry Director", init: "VR" },
     { q: "The animations are addictive. Our clients kept sharing the site just because of how it looked.", name: "Apostle Owobi Victory", role: "Church Pastor", init: "OV" },
@@ -2279,7 +2387,7 @@
   `).join('');
   testTrack.innerHTML = testHTML + testHTML;
 
-  /* ═══════ PARTICLE CANVAS ═══════ */
+  /* PARTICLE CANVAS */
   (function() {
     const canvas = document.getElementById('hero-canvas');
     const ctx = canvas.getContext('2d');
@@ -2316,62 +2424,27 @@
     };
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const particleCount = reduceMotion ? 0 : (w < 600 ? 40 : w < 1024 ? 70 : 120);
+    const particleCount = reduceMotion ? 0 : (w < 600 ? 30 : 60);
     for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-
-    function drawConnections() {
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(37,99,235,${0.12 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-    }
 
     function animate() {
       ctx.clearRect(0, 0, w, h);
       particles.forEach(p => { p.update(); p.draw(); });
-      drawConnections();
       requestAnimationFrame(animate);
     }
     animate();
   })();
 
-  /* ═══════ GSAP ANIMATIONS ═══════ */
+  /* GSAP ANIMATIONS */
   function initAnimations() {
     gsap.registerPlugin(ScrollTrigger);
 
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-    tl.from('.hero-tag', { y: 30, opacity: 0, duration: 0.7 })
-      .from('.hero-h1 .word', { y: 60, opacity: 0, stagger: 0.12, duration: 0.9 }, '-=0.3')
-      .from('.hero-desc', { y: 30, opacity: 0, duration: 0.7 }, '-=0.4')
-      .from('.hero-ctas .btn', { scale: 0.8, opacity: 0, stagger: 0.12, duration: 0.6 }, '-=0.3')
-      .from('.hero-social', { y: 20, opacity: 0, duration: 0.5 }, '-=0.2')
-      .from('.hero-orb-wrap', { scale: 0.8, opacity: 0, duration: 1, ease: 'elastic.out(1,0.5)' }, '-=1.0')
-      .from('.stat-badge', { scale: 0, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'back.out(1.7)' }, '-=0.4');
-
-    gsap.to('.hero-orb', { y: -15, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-    gsap.to('.badge-projects', { y: -8, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0.5 });
-    gsap.to('.badge-exp', { y: -10, duration: 3.2, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1 });
-
-    gsap.utils.toArray('.fade-up').forEach(el => {
-      gsap.fromTo(el,
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
-        }
-      );
-    });
+    tl.from('.hero-tag', { y: 20, opacity: 0, duration: 0.6 })
+      .from('.hero-h1 .word', { y: 40, opacity: 0, stagger: 0.08, duration: 0.7 }, '-=0.3')
+      .from('.hero-desc', { y: 20, opacity: 0, duration: 0.6 }, '-=0.4')
+      .from('.hero-ctas .btn', { scale: 0.9, opacity: 0, stagger: 0.1, duration: 0.5 }, '-=0.3')
+      .from('.hero-orb-wrap', { scale: 0.85, opacity: 0, duration: 0.8 }, '-=0.6');
 
     gsap.utils.toArray('.skill-fill').forEach(bar => {
       ScrollTrigger.create({
@@ -2380,19 +2453,9 @@
         onEnter: () => { bar.style.width = bar.dataset.pct + '%'; }
       });
     });
-
-    gsap.from('.process-step', {
-      x: -40, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: '.process-grid', start: 'top 80%' }
-    });
-
-    gsap.from('.bento-card', {
-      y: 60, opacity: 0, stagger: 0.12, duration: 0.9, ease: 'power3.out',
-      scrollTrigger: { trigger: '.bento', start: 'top 80%' }
-    });
   }
 
-  /* ═══════ IMAGE FALLBACKS ═══════ */
+  /* IMAGE FALLBACKS */
   function wireImageFallback(imgId, placeholderId) {
     const img = document.getElementById(imgId);
     const placeholder = document.getElementById(placeholderId);
@@ -2412,7 +2475,7 @@
     else img.addEventListener('load', () => img.classList.remove('is-hidden'));
   });
 
-  /* ═══════ NAV ACTIVE HIGHLIGHT ═══════ */
+  /* NAV SCROLL HIGHLIGHT */
   const sections = document.querySelectorAll('section[id]');
   const navAs = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {
